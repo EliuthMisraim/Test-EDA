@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación de Bienestar Emocional - Estrés, Depresión y Ansiedad</title>
+    <style>
+        :root {
+            --primary: #2c7a7b;
+            --bg: #fcfcfc;
+            --text: #2d3748;
+            --white: #ffffff;
+            --accent: #3182ce;
+            --card-border: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Inter', -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+        }
+
+        .container { 
+            max-width: 900px; 
+            margin: 20px auto; 
+            background: var(--white); 
+            padding: 40px; 
+            border-radius: 24px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+
+        .hidden { display: none; }
+
+        /* Estilos Página Inicio */
+        .logo-container { text-align: center; margin-bottom: 30px; }
+        .logo-container img { max-width: 220px; height: auto; }
+
+        h1 { color: #1a202c; text-align: center; font-size: 2.2em; margin-bottom: 20px; }
+        h2 { color: var(--primary); font-size: 1.5em; margin-top: 30px; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; }
+        
+        .intro-section { text-align: justify; color: #4a5568; margin-bottom: 30px; }
+        
+        .box-info { background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid var(--card-border); margin-bottom: 30px; }
+
+        /* Secciones del Test (Subescalas) */
+        .subscale-section { 
+            background: #fff; 
+            padding: 25px; 
+            border-radius: 16px; 
+            border: 1px solid var(--card-border); 
+            margin-bottom: 30px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+        }
+        .subscale-title { color: var(--primary); font-size: 1.3em; margin-top: 0; margin-bottom: 20px; font-weight: 700; }
+        
+        .question-block { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f7fafc; }
+        .question-text { font-size: 1.05em; font-weight: 500; margin-bottom: 10px; }
+        
+        .advanced-block { 
+            background: #f7fafc; 
+            padding: 20px; 
+            border-radius: 12px; 
+            border-left: 4px solid var(--accent); 
+            margin-top: 15px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Botones de respuesta Sí/No */
+        .options-binary { display: flex; gap: 15px; max-width: 250px; }
+        .btn-bool { 
+            flex: 1; padding: 10px 20px; border: 2px solid #edf2f7; border-radius: 10px; 
+            cursor: pointer; background: white; font-weight: 600; font-size: 0.95em; transition: all 0.2s; 
+        }
+        .btn-bool:hover { border-color: #cbd5e0; }
+        .btn-bool.active-yes { background: #e6fffa; color: #234e52; border-color: #38b2ac; }
+        .btn-bool.active-no { background: #fed7d7; color: #742a2a; border-color: #e53e3e; }
+
+        /* Diseño de Resultados en 2 Columnas */
+        .result-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; margin-top: 20px; }
+        .text-column { text-align: left; }
+        .quote { border-left: 3px solid #3182ce; padding-left: 20px; font-style: italic; color: #718096; margin: 25px 0; }
+        
+        .subscale-result-item { margin-bottom: 15px; padding: 15px; border-radius: 10px; border: 1px solid #edf2f7; text-align: left; }
+        .subscale-result-item strong { display: block; font-size: 1.1em; }
+        .indicator { inline-size: fit-content; padding: 3px 10px; border-radius: 20px; font-size: 0.85em; font-weight: bold; margin-top: 5px; }
+        .ind-low { background: #e6fffa; color: #234e52; }
+        .ind-high { background: #feebc8; color: #744210; }
+
+        /* Botón Iridiscente */
+        .btn-iridescent {
+            display: inline-block; width: 100%; padding: 20px; text-align: center; text-decoration: none; 
+            color: white !important; font-weight: 800; border-radius: 12px; box-sizing: border-box;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%; animation: gradientBG 8s ease infinite; transition: transform 0.3s;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .btn-iridescent:hover { transform: scale(1.02); }
+
+        .footer-icons { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 60px; padding-top: 40px; border-top: 1px solid #edf2f7; }
+        .svg-icon { width: 35px; height: 35px; stroke: #3182ce; fill: none; stroke-width: 1.5; margin-bottom: 10px; }
+
+        .btn-main { width: 100%; padding: 20px; background: var(--primary); color: white; border: none; border-radius: 15px; font-size: 1.1em; font-weight: bold; cursor: pointer; }
+
+        @media (max-width: 768px) { .result-layout, .footer-icons { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="screen-intro">
+        <div class="logo-container"><img src="logo.png" alt="Logo Vida sin Humo"></div>
+        <h1>Evaluación Integral de Bienestar Emocional</h1>
+        <p class="intro-section">
+            El ritmo de vida actual puede impactar nuestra salud mental de diferentes maneras. Este test inteligente evalúa tres indicadores clave: **Ansiedad, Depresión y Estrés**. A través de un sistema de filtros avanzados, la aplicación adaptará las preguntas dinámicamente según tus respuestas iniciales para ofrecerte una perspectiva clara sobre tu estado actual.
+        </p>
+        <div class="box-info">
+            <h2>Cómo funciona esta evaluación</h2>
+            <ul>
+                <li>Responde con honestidad basándote en cómo te has sentido en las últimas semanas.</li>
+                <li>El test detectará automáticamente si es necesario profundizar en alguna de las áreas.</li>
+                <li>Al finalizar, obtendrás un perfil personalizado de indicadores para revisar con tu terapeuta.</li>
+            </ul>
+        </div>
+        <button class="btn-main" onclick="startTest()">Comenzar Evaluación Dinámica</button>
+    </div>
+
+    <div id="screen-test" class="hidden">
+        <div class="subscale-section" id="section-ansiedad">
+            <div class="subscale-title">1. Valoración de Indicadores de Ansiedad</div>
+            <div id="ansiedad-filtro"></div>
+            <div id="ansiedad-avanzado" class="advanced-block hidden">
+                <p style="font-size: 0.9em; color: #718096; margin-bottom: 15px;"><em>Se han activado preguntas adicionales para profundizar en esta área:</em></p>
+                <div id="ansiedad-avanzado-preguntas"></div>
+            </div>
+        </div>
+
+        <div class="subscale-section" id="section-depresion">
+            <div class="subscale-title">2. Valoración de Indicadores del Estado de Ánimo (Depresión)</div>
+            <div id="depresion-filtro"></div>
+            <div id="depresion-avanzado" class="advanced-block hidden">
+                <p style="font-size: 0.9em; color: #718096; margin-bottom: 15px;"><em>Se han activado preguntas adicionales para profundizar en esta área:</em></p>
+                <div id="depresion-avanzado-preguntas"></div>
+            </div>
+        </div>
+
+        <div class="subscale-section" id="section-estres">
+            <div class="subscale-title">3. Valoración de Niveles de Estrés</div>
+            <div id="estres-filtro"></div>
+            <div id="estres-avanzado" class="advanced-block hidden">
+                <p style="font-size: 0.9em; color: #718096; margin-bottom: 15px;"><em>Se han activado preguntas adicionales para profundizar en esta área:</em></p>
+                <div id="estres-avanzado-preguntas"></div>
+            </div>
+        </div>
+
+        <button class="btn-main" onclick="calculateEDAresults()">Finalizar y Generar Diagnóstico</button>
+    </div>
+
+    <div id="screen-result" class="hidden">
+        <h1>Tu Perfil de Bienestar Emocional</h1>
+        <div class="result-layout">
+            <div class="text-column">
+                <h2>El equilibrio es un camino continuo</h2>
+                <p>Identificar las áreas donde acumulamos mayor tensión, desmotivación o preocupación es fundamental para prevenir afectaciones a largo plazo. Este mapa de indicadores muestra en qué áreas tu cuerpo y tu mente están solicitando atención.</p>
+                <p>Recuerda que los estados emocionales son dinámicos. Encontrar las herramientas y el acompañamiento estratégico adecuado te permitirá procesar estas cargas de forma saludable y natural.</p>
+                <div class="quote">"El reconocimiento de nuestro estado actual no es un diagnóstico limitante, sino el punto de partida hacia nuestro bienestar."</div>
+            </div>
+            
+            <div class="widget-column">
+                <div class="box-info" style="background: white;">
+                    <p style="color: var(--primary); font-weight: bold; margin-bottom: 15px; text-align: center;">Resumen de Indicadores</p>
+                    
+                    <div class="subscale-result-item" id="res-ansiedad">
+                        <strong>Ansiedad</strong>
+                        <div class="indicator" id="ind-ansiedad">-</div>
+                    </div>
+                    <div class="subscale-result-item" id="res-depresion">
+                        <strong>Depresión (Estado de Ánimo)</strong>
+                        <div class="indicator" id="ind-depresion">-</div>
+                    </div>
+                    <div class="subscale-result-item" id="res-estres">
+                        <strong>Carga de Estrés</strong>
+                        <div class="indicator" id="ind-estres">-</div>
+                    </div>
+                </div>
+
+                <div class="box-info">
+                    <p style="font-size: 0.9em; font-weight: bold; color: var(--primary); margin-bottom: 10px; text-align: center;">Acompañamiento Profesional</p>
+                    <p style="font-size: 0.85em; color: #4a5568; text-align: center;">El <strong>Psicoterapeuta Jesús Díaz</strong> puede ayudarte a abordar estos indicadores mediante un enfoque integral y técnicas avanzadas de sofrología.</p>
+                    <a href="https://www.doctoralia.es/jesus-diaz-sanchez-aranzueque/terapeuta-complementario/granada" target="_blank" class="btn-iridescent">RESERVAR SESIÓN EN DOCTORALIA</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-icons">
+            <div class="icon-item"><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg><h4>Escucha tu cuerpo</h4><p>Atiende a las manifestaciones físicas del estrés y la ansiedad antes de que aumenten.</p></div>
+            <div class="icon-item"><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><h4>Busca apoyo, te ayudo</h4><p>El soporte terapéutico adecuado acorta los caminos hacia la estabilidad emocional.</p></div>
+            <div class="icon-item"><svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg><h4>Elige tu momento</h4><p>Iniciar un proceso de autocuidado es una decisión valiosa; hazlo a tu propio ritmo.</p></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const dataTest = {
+        ansiedad: {
+            filtro: [
+                "¿Te has sentido con un exceso de nerviosismo, tensión o agitación física?",
+                "¿Has estado muy preocupado por diferentes motivos en tu día a día?",
+                "¿Has notado que te irritas o pierdes la paciencia con mucha facilidad?",
+                "¿Te ha cuesta trabajo relajarte o encontrar un momento de tranquilidad?"
+            ],
+            avanzado: [
+                "¿Has tenido una mala calidad de sueño o dificultades generales para dormir bien?",
+                "¿Has sufrido dolores de cabeza, contracturas o molestias constantes en la nuca?",
+                "¿Has tenido molestias físicas como temblores, hormigueos, mareos, sudoración o digestión pesada?",
+                "¿Te ha preocupado de forma constante o excesiva tu estado de salud física?",
+                "¿Te cuesta trabajo conciliar el sueño (quedarte dormido al momento de irte a la cama)?"
+            ],
+            umbral: 2
+        },
+        depresion: {
+            filtro: [
+                "¿Te has sentido con desgano, desmotivación o una marcada falta de energía?",
+                "¿Has perdido el interés o el placer por las cosas que antes solías disfrutar?",
+                "¿Has sentido una disminución en la confianza en ti mismo o en tus capacidades?",
+                "¿Te has sentido con desilusión, desesperanza o una visión pesimista hacia el futuro?"
+            ],
+            avanzado: [
+                "¿Te ha costado más trabajo de lo normal concentrarte en tus actividades diarias o estudios?",
+                "¿Has notado una pérdida de peso debido a una falta evidente de apetito?",
+                "¿Te has estado despertando mucho antes de lo habitual o de tu hora programada sin motivo aparente?",
+                "¿Sientes que tus movimientos, reacciones o pensamientos van más lentos de lo normal?",
+                "¿Has notado una tendencia a sentirte peor o con el estado de ánimo más bajo durante las mañanas?"
+            ],
+            umbral: 1
+        },
+        estres: {
+            filtro: [
+                "¿Sientes que la carga de tus responsabilidades supera por mucho el tiempo que tienes para cumplirlas?",
+                "¿Has notado tensión física frecuente en zonas como el cuello, la espalda o la mandíbula?",
+                "¿Te cuesta trabajo desconectar mentalmente de tus obligaciones al terminar tu jornada laboral o escolar?",
+                "¿Has experimentado de forma constante la sensación de estar rebasado o al límite de tus fuerzas?"
+            ],
+            avanzado: [
+                "¿Notas que reaccionas con impaciencia, frustración o molestia ante pequeños imprevistos diarios?",
+                "¿Te cuesta más trabajo tomar decisiones sencillas que antes resolvías con rapidez?",
+                "¿Sientes un cansancio o fatiga mental persistente que no desaparece ni con el descanso del fin de semana?",
+                "¿Tienes pensamientos repetitivos o circulares sobre tareas pendientes fuera de tu horario?",
+                "¿Has descuidado tus hábitos de autocuidado (alimentación, ejercicio o tiempo libre) argumentando falta de tiempo?"
+            ],
+            umbral: 2
+        }
+    };
+
+    let state = {
+        ansiedad: { filtro: Array(4).fill(null), avanzado: Array(5).fill(null) },
+        depresion: { filtro: Array(4).fill(null), avanzado: Array(5).fill(null) },
+        estres: { filtro: Array(4).fill(null), avanzado: Array(5).fill(null) }
+    };
+
+    function startTest() {
+        document.getElementById('screen-intro').classList.add('hidden');
+        document.getElementById('screen-test').classList.remove('hidden');
+        renderAllSubscales();
+        window.scrollTo(0, 0);
+    }
+
+    function renderAllSubscales() {
+        ['ansiedad', 'depresion', 'estres'].forEach(key => {
+            // Render Filtro
+            const containerFiltro = document.getElementById(`${key}-filtro`);
+            dataTest[key].filtro.forEach((q, i) => {
+                containerFiltro.appendChild(createQuestionElement(key, 'filtro', i, q));
+            });
+            // Render Avanzado
+            const containerAvanzado = document.getElementById(`${key}-avanzado-preguntas`);
+            dataTest[key].avanzado.forEach((q, i) => {
+                containerAvanzado.appendChild(createQuestionElement(key, 'avanzado', i, q));
+            });
+        });
+    }
+
+    function createQuestionElement(subscale, block, index, text) {
+        const div = document.createElement('div');
+        div.className = 'question-block';
+        div.innerHTML = `
+            <div class="question-text">${index + 1}. ${text}</div>
+            <div class="options-binary">
+                <button class="btn-bool" onclick="handleResponse('${subscale}', '${block}', ${index}, true, this)">Sí</button>
+                <button class="btn-bool" onclick="handleResponse('${subscale}', '${block}', ${index}, false, this)">No</button>
+            </div>
+        `;
+        return div;
+    }
+
+    function handleResponse(subscale, block, index, value, button) {
+        state[subscale][block][index] = value;
+        
+        // Estilo de botones
+        const parent = button.parentElement;
+        parent.querySelectorAll('.btn-bool').forEach(b => {
+            b.classList.remove('active-yes', 'active-no');
+        });
+        button.classList.add(value ? 'active-yes' : 'active-no');
+
+        // Lógica condicional de despliegue
+        if (block === 'filtro') {
+            const afirmacionesSies = state[subscale].filtro.filter(v => v === true).length;
+            const divAvanzado = document.getElementById(`${subscale}-avanzado`);
+            
+            if (afirmacionesSies >= dataTest[subscale].umbral) {
+                divAvanzado.classList.remove('hidden');
+            } else {
+                divAvanzado.classList.add('hidden');
+                // Si se oculta, limpiamos las respuestas avanzadas
+                state[subscale].avanzado.fill(null);
+                divAvanzado.querySelectorAll('.btn-bool').forEach(b => b.classList.remove('active-yes', 'active-no'));
+            }
+        }
+    }
+
+    function calculateEDAresults() {
+        // Validar que al menos todo lo visible esté respondido
+        for (let key of ['ansiedad', 'depresion', 'estres']) {
+            if (state[key].filtro.includes(null)) {
+                alert("Por favor, responde todas las preguntas principales del cuestionario.");
+                return;
+            }
+            const afirmacionesSies = state[key].filtro.filter(v => v === true).length;
+            if (afirmacionesSies >= dataTest[key].umbral && state[key].avanzado.includes(null)) {
+                alert(`Por favor, completa las preguntas adicionales de la sección de ${key.toUpperCase()}.`);
+                return;
+            }
+        }
+
+        document.getElementById('screen-test').classList.add('hidden');
+        document.getElementById('screen-result').classList.remove('hidden');
+
+        // Procesar indicadores finales
+        ['ansiedad', 'depresion', 'estres'].forEach(key => {
+            const siesFiltro = state[key].filtro.filter(v => v === true).length;
+            const elementInd = document.getElementById(`ind-${key}`);
+            
+            if (siesFiltro < dataTest[key].umbral) {
+                elementInd.innerText = "Indicadores Bajos / Sin Alerta";
+                elementInd.className = "indicator ind-low";
+            } else {
+                elementInd.innerText = "Indicadores a Atender / Requiere Valoración";
+                elementInd.className = "indicator ind-high";
+            }
+        });
+        window.scrollTo(0, 0);
+    }
+</script>
+</body>
+</html>
